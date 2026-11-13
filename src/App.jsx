@@ -12,8 +12,9 @@ import {
   saveActiveSession, 
   loadActiveSession, 
   clearActiveSession, 
-  getLeaderboard, 
-  saveScoreToLeaderboard, 
+  getLocalLeaderboard, 
+  getLeaderboardAsync, 
+  saveScore, 
   loadSettings, 
   saveSettings 
 } from './utils/storage';
@@ -51,10 +52,17 @@ export default function App() {
   // Modais
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
-  const [leaderboard, setLeaderboard] = useState(getLeaderboard());
+  const [leaderboard, setLeaderboard] = useState(getLocalLeaderboard());
 
-  // Verificação de sessão salva anterior no localStorage
+  // Verificação de sessão salva anterior no localStorage e sincronização do Leaderboard (Supabase/Local)
   const [savedSession, setSavedSession] = useState(null);
+
+  useEffect(() => {
+    // Carrega dados mais recentes da nuvem (Supabase) se disponíveis
+    getLeaderboardAsync().then(data => {
+      if (data) setLeaderboard(data);
+    });
+  }, []);
 
   // -------------------------------------------------------------
   // EFEITOS COLATERAIS (Requisito 3: useEffect)
@@ -250,10 +258,15 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [quizState, isAnswerSubmitted, selectedOption, handleConfirmAnswer]);
 
-  // Salvar no ranking e atualizar estado local
-  const handleSaveScore = (entry) => {
-    const updated = saveScoreToLeaderboard(entry);
+  // Salvar no ranking (Nuvem Supabase + Local) e atualizar estado da tela
+  const handleSaveScore = async (entry) => {
+    const updated = await saveScore(entry);
     setLeaderboard(updated);
+  };
+
+  const handleRefreshLeaderboard = async () => {
+    const fresh = await getLeaderboardAsync();
+    if (fresh) setLeaderboard(fresh);
   };
 
   const handleClearLeaderboard = () => {
@@ -475,6 +488,7 @@ export default function App() {
         isOpen={isLeaderboardOpen}
         onClose={() => setIsLeaderboardOpen(false)}
         leaderboard={leaderboard}
+        onRefresh={handleRefreshLeaderboard}
         onClearLeaderboard={handleClearLeaderboard}
       />
 
