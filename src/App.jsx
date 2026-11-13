@@ -20,13 +20,16 @@ import {
 } from './utils/storage';
 import { 
   Play, 
-  RotateCcw, 
   Code, 
-  CheckCircle, 
-  GraduationCap, 
   Sparkles, 
   ShieldCheck, 
-  Clock 
+  Clock,
+  Gamepad2,
+  Terminal,
+  Zap,
+  Flame,
+  Layers,
+  Cpu
 } from 'lucide-react';
 
 export default function App() {
@@ -42,6 +45,7 @@ export default function App() {
   const [isAnswerSubmitted, setIsAnswerSubmitted] = useState(false);
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
+  const [lives, setLives] = useState(3);
   const [userAnswers, setUserAnswers] = useState([]);
   
   // Cronômetros
@@ -54,7 +58,7 @@ export default function App() {
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [leaderboard, setLeaderboard] = useState(getLocalLeaderboard());
 
-  // Verificação de sessão salva anterior no localStorage e sincronização do Leaderboard (Supabase/Local)
+  // Verificação de sessão salva anterior no localStorage e sincronização do Leaderboard
   const [savedSession, setSavedSession] = useState(null);
 
   useEffect(() => {
@@ -99,13 +103,14 @@ export default function App() {
         currentQuestionIndex,
         score,
         streak,
+        lives,
         userAnswers,
         totalTime
       });
     } else if (quizState === 'finished') {
       clearActiveSession();
     }
-  }, [quizState, currentQuestionIndex, score, streak, userAnswers, totalTime]);
+  }, [quizState, currentQuestionIndex, score, streak, lives, userAnswers, totalTime]);
 
   // 5. Cronômetro da questão atual com limpeza de intervalo
   useEffect(() => {
@@ -114,7 +119,7 @@ export default function App() {
     const timer = setInterval(() => {
       setTimeRemaining(prev => {
         if (prev <= 1) {
-          // Tempo esgotado: auto-submete como incorreta
+          // Tempo esgotado
           handleTimeExpired();
           return 0;
         }
@@ -140,6 +145,7 @@ export default function App() {
     setIsAnswerSubmitted(false);
     setScore(0);
     setStreak(0);
+    setLives(3);
     setUserAnswers([]);
     setTimeRemaining(QUESTION_TIME_LIMIT);
     setTotalTime(0);
@@ -153,6 +159,7 @@ export default function App() {
     setCurrentQuestionIndex(savedSession.currentQuestionIndex || 0);
     setScore(savedSession.score || 0);
     setStreak(savedSession.streak || 0);
+    setLives(savedSession.lives ?? 3);
     setUserAnswers(savedSession.userAnswers || []);
     setTotalTime(savedSession.totalTime || 0);
     setSelectedOption(null);
@@ -187,6 +194,7 @@ export default function App() {
     } else {
       sound.playError();
       setStreak(0);
+      setLives(l => Math.max(0, l - 1));
     }
 
     setUserAnswers(prev => [
@@ -206,6 +214,7 @@ export default function App() {
     sound.playError();
     setIsAnswerSubmitted(true);
     setStreak(0);
+    setLives(l => Math.max(0, l - 1));
 
     const currentQuestion = QUIZ_QUESTIONS[currentQuestionIndex];
     setUserAnswers(prev => [
@@ -275,12 +284,13 @@ export default function App() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-slate-50 text-slate-900 transition-colors duration-200 dark:bg-slate-950 dark:text-slate-100">
+    <div className="flex min-h-screen flex-col bg-[#FDFBF7] text-[#16161A] bg-codedex-grid transition-colors duration-200 dark:bg-[#121316] dark:text-[#F3F4F6]">
       
-      {/* Barra de Navegação Superior */}
+      {/* Barra de Navegação Superior Codédex */}
       <Navbar
         score={score}
         streak={streak}
+        lives={lives}
         soundEnabled={soundEnabled}
         onToggleSound={() => setSoundEnabled(v => !v)}
         darkMode={darkMode}
@@ -293,125 +303,135 @@ export default function App() {
       {/* Conteúdo Principal Centralizado */}
       <main className="flex flex-1 flex-col items-center justify-center p-4 sm:p-6 lg:p-8">
         
-        {/* TELA 1: Boas-vindas / Início do Quiz */}
+        {/* TELA 1: Boas-vindas / Início do Jogo (Codédex Hero Style) */}
         {quizState === 'start' && (
           <div className="w-full max-w-2xl space-y-6 animate-fadeIn">
             
-            {/* Banner de Sessão Salva Anteriormente */}
+            {/* Banner de Jogo Salvo no Navegador */}
             {savedSession && (
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 rounded-2xl border border-brand-300 bg-brand-50 p-4 shadow-sm dark:border-brand-900 dark:bg-brand-950/40">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 rounded-2xl border-[2.5px] border-black bg-[#FFE600] p-4 shadow-neo text-black">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-600 text-white">
-                    <Sparkles className="h-5 w-5" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-black bg-white shadow-neo-sm">
+                    <Sparkles className="h-5 w-5 text-black" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-brand-900 dark:text-brand-200">
-                      Progresso recuperado do localStorage!
+                    <h3 className="font-pixel text-xs font-bold uppercase">
+                      SAVE GAME ENCONTRADO!
                     </h3>
-                    <p className="text-xs text-brand-700 dark:text-brand-400">
-                      Você estava na questão {savedSession.currentQuestionIndex + 1} com {savedSession.score} pontos.
+                    <p className="text-xs font-bold font-sans">
+                      Você estava na Fase {savedSession.currentQuestionIndex + 1} com {savedSession.score} XP acumulados.
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 w-full sm:w-auto">
                   <button
                     onClick={handleResumeSavedSession}
-                    className="flex-1 sm:flex-none rounded-xl bg-brand-600 px-4 py-2 text-xs font-bold text-white shadow transition hover:bg-brand-700"
+                    className="neo-btn flex-1 sm:flex-none rounded-xl bg-black px-4 py-2 font-pixel text-[11px] font-bold text-[#FFE600] uppercase cursor-pointer"
                   >
-                    Continuar
+                    CONTINUAR
                   </button>
                   <button
                     onClick={() => {
                       clearActiveSession();
                       setSavedSession(null);
                     }}
-                    className="rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
+                    className="neo-btn rounded-xl bg-white px-3 py-2 font-pixel text-[10px] font-bold text-black uppercase cursor-pointer"
                   >
-                    Descartar
+                    DESCARTAR
                   </button>
                 </div>
               </div>
             )}
 
-            {/* Cartão de Apresentação Hero */}
-            <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 sm:p-10 text-center shadow-lg dark:border-slate-800 dark:bg-slate-900">
+            {/* Cartão Hero Neo-Brutalist Codédex */}
+            <div className="overflow-hidden rounded-3xl border-[3px] border-black bg-white p-6 sm:p-10 text-center shadow-neo-xl dark:bg-[#1F2024] dark:border-black">
               
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-tr from-brand-600 to-indigo-500 text-white shadow-lg shadow-brand-500/25">
-                <GraduationCap className="h-8 w-8" />
+              {/* Mascote / Ícone de Arcade */}
+              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl border-[3px] border-black bg-[#FFE600] text-black shadow-neo">
+                <Gamepad2 className="h-10 w-10 animate-pulse-subtle" />
               </div>
 
-              <div className="mt-4 flex items-center justify-center gap-2">
-                <span className="rounded-full bg-brand-100 px-3 py-1 text-xs font-bold text-brand-700 dark:bg-brand-950 dark:text-brand-300">
-                  DSA 2026 • Provão Paulista
+              {/* Badges de Topo */}
+              <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+                <span className="rounded-lg border-2 border-black bg-[#FFE600] px-3 py-1 font-pixel text-[10px] font-bold text-black uppercase shadow-neo-sm">
+                  DSA 2026 • QUEST
                 </span>
-                <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
-                  ReactJS + JavaScript
+                <span className="rounded-lg border-2 border-black bg-[#00DFD8] px-3 py-1 font-pixel text-[10px] font-bold text-black uppercase shadow-neo-sm">
+                  PROVÃO PAULISTA
+                </span>
+                <span className="rounded-lg border-2 border-black bg-[#FF0080] px-3 py-1 font-pixel text-[10px] font-bold text-white uppercase shadow-neo-sm">
+                  REACT + JAVASCRIPT
                 </span>
               </div>
 
-              <h1 className="mt-4 text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                Quiz de Revisão Interativo
+              <h1 className="mt-4 font-pixel text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-black dark:text-white uppercase leading-snug">
+                REVISÃO INTERATIVA DSA
               </h1>
 
-              <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 max-w-lg mx-auto">
-                Teste e aprimore seus conhecimentos em <strong>Variáveis</strong>, <strong>Condicionais</strong>, <strong>Laços de Repetição</strong>, <strong>Métodos de Array</strong> e nos hooks <strong>useState / useEffect</strong> do ReactJS.
+              <p className="mt-2 text-sm sm:text-base font-medium text-slate-600 dark:text-slate-300 max-w-lg mx-auto font-sans">
+                Embarque na jornada gamificada de DSA: enfrente <strong>10 quests</strong> de JavaScript, acumule <strong>XP</strong>, suba no <strong>Ranking da Turma</strong> e domine o Provão Paulista!
               </p>
 
-              {/* Grade de Tópicos Avaliados */}
-              <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 text-left">
-                <div className="rounded-xl border border-slate-100 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-800/40">
-                  <span className="text-[11px] font-bold text-brand-600 dark:text-brand-400">Tópico 1</span>
-                  <p className="text-xs font-semibold text-slate-800 dark:text-slate-200">Variáveis & Tipos</p>
+              {/* Tópicos em estilo RPG Quests */}
+              <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 text-left">
+                <div className="rounded-xl border-2 border-black bg-[#FDFBF7] p-3 shadow-neo-sm dark:bg-[#16161A]">
+                  <span className="font-pixel text-[9px] text-[#7928CA] dark:text-[#FFE600] uppercase font-bold">QUEST 01</span>
+                  <p className="text-xs font-bold text-black dark:text-white mt-0.5">Variáveis & Tipos</p>
                 </div>
-                <div className="rounded-xl border border-slate-100 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-800/40">
-                  <span className="text-[11px] font-bold text-brand-600 dark:text-brand-400">Tópico 2</span>
-                  <p className="text-xs font-semibold text-slate-800 dark:text-slate-200">Condicionais & Lógica</p>
+                <div className="rounded-xl border-2 border-black bg-[#FDFBF7] p-3 shadow-neo-sm dark:bg-[#16161A]">
+                  <span className="font-pixel text-[9px] text-[#00DFD8] uppercase font-bold">QUEST 02</span>
+                  <p className="text-xs font-bold text-black dark:text-white mt-0.5">Condicionais & if</p>
                 </div>
-                <div className="rounded-xl border border-slate-100 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-800/40">
-                  <span className="text-[11px] font-bold text-brand-600 dark:text-brand-400">Tópico 3</span>
-                  <p className="text-xs font-semibold text-slate-800 dark:text-slate-200">Repetições & Arrays</p>
+                <div className="rounded-xl border-2 border-black bg-[#FDFBF7] p-3 shadow-neo-sm dark:bg-[#16161A]">
+                  <span className="font-pixel text-[9px] text-[#22C55E] uppercase font-bold">QUEST 03</span>
+                  <p className="text-xs font-bold text-black dark:text-white mt-0.5">Map & Filter</p>
                 </div>
-                <div className="rounded-xl border border-slate-100 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-800/40">
-                  <span className="text-[11px] font-bold text-brand-600 dark:text-brand-400">Tópico 4</span>
-                  <p className="text-xs font-semibold text-slate-800 dark:text-slate-200">Funções & Escopo</p>
+                <div className="rounded-xl border-2 border-black bg-[#FDFBF7] p-3 shadow-neo-sm dark:bg-[#16161A]">
+                  <span className="font-pixel text-[9px] text-[#FF0080] uppercase font-bold">QUEST 04</span>
+                  <p className="text-xs font-bold text-black dark:text-white mt-0.5">Funções & Escopo</p>
                 </div>
-                <div className="rounded-xl border border-slate-100 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-800/40">
-                  <span className="text-[11px] font-bold text-brand-600 dark:text-brand-400">Tópico 5</span>
-                  <p className="text-xs font-semibold text-slate-800 dark:text-slate-200">DOM & Eventos</p>
+                <div className="rounded-xl border-2 border-black bg-[#FDFBF7] p-3 shadow-neo-sm dark:bg-[#16161A]">
+                  <span className="font-pixel text-[9px] text-[#FFE600] uppercase font-bold">QUEST 05</span>
+                  <p className="text-xs font-bold text-black dark:text-white mt-0.5">DOM & Eventos</p>
                 </div>
-                <div className="rounded-xl border border-slate-100 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-800/40">
-                  <span className="text-[11px] font-bold text-brand-600 dark:text-brand-400">Tópico 6</span>
-                  <p className="text-xs font-semibold text-slate-800 dark:text-slate-200">React Hooks</p>
+                <div className="rounded-xl border-2 border-black bg-[#FDFBF7] p-3 shadow-neo-sm dark:bg-[#16161A]">
+                  <span className="font-pixel text-[9px] text-[#7928CA] dark:text-[#00DFD8] uppercase font-bold">QUEST 06</span>
+                  <p className="text-xs font-bold text-black dark:text-white mt-0.5">useState & useEffect</p>
                 </div>
               </div>
 
-              {/* Botão Principal de Iniciar */}
-              <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+              {/* Botões de Início */}
+              <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3.5">
                 <button
                   onClick={handleStartNewQuiz}
-                  className="flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-brand-600 to-indigo-600 px-8 py-3.5 text-sm font-bold text-white shadow-xl shadow-brand-500/25 transition-all hover:from-brand-700 hover:to-indigo-700 hover:shadow-brand-500/35 active:scale-95"
+                  className="neo-btn flex w-full sm:w-auto items-center justify-center gap-3 rounded-2xl bg-[#FFE600] px-8 py-4 font-pixel text-xs sm:text-sm font-bold text-black uppercase cursor-pointer"
                 >
-                  <Play className="h-4 w-4 fill-white" />
-                  <span>Iniciar Revisão Agora</span>
+                  <Play className="h-4 w-4 fill-black text-black" />
+                  <span>INICIAR QUEST [START]</span>
                 </button>
 
                 <button
                   onClick={() => setIsHelpOpen(true)}
-                  className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-2xl border border-slate-300 bg-white px-6 py-3.5 text-sm font-bold text-slate-700 shadow-sm transition hover:bg-slate-50 active:scale-95 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+                  className="neo-btn flex w-full sm:w-auto items-center justify-center gap-2 rounded-2xl bg-white px-6 py-4 font-pixel text-xs sm:text-sm font-bold text-black uppercase cursor-pointer dark:bg-[#16161A] dark:text-white"
                 >
-                  <Code className="h-4 w-4 text-indigo-500" />
-                  <span>Explicar Código (Guia)</span>
+                  <Code className="h-4 w-4 text-[#7928CA] dark:text-[#00DFD8]" />
+                  <span>GUIA DO ALUNO</span>
                 </button>
               </div>
 
-              <div className="mt-6 flex items-center justify-center gap-6 text-xs text-slate-400">
+              {/* Badges de Rodapé */}
+              <div className="mt-7 flex flex-wrap items-center justify-center gap-5 font-pixel text-[9px] text-slate-500 uppercase">
                 <span className="flex items-center gap-1.5">
-                  <ShieldCheck className="h-4 w-4 text-emerald-500" />
-                  Salva no navegador
+                  <ShieldCheck className="h-3.5 w-3.5 text-[#22C55E]" />
+                  SALVAMENTO AUTOMÁTICO
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Clock className="h-4 w-4 text-amber-500" />
-                  30s por questão
+                  <Clock className="h-3.5 w-3.5 text-[#FFE600]" />
+                  30s POR QUESTÃO
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Zap className="h-3.5 w-3.5 text-[#FF0080]" />
+                  COMBO STREAKS
                 </span>
               </div>
 
@@ -420,17 +440,17 @@ export default function App() {
           </div>
         )}
 
-        {/* TELA 2: Execução do Quiz */}
+        {/* TELA 2: Execução da Quest */}
         {quizState === 'quiz' && (
           <div className="w-full max-w-2xl space-y-4 animate-fadeIn">
             
-            {/* Barra de Progresso Superior */}
+            {/* Barra de Progresso Codédex */}
             <ProgressBar
               current={currentQuestionIndex}
               total={QUIZ_QUESTIONS.length}
             />
 
-            {/* Painel de Status (Tempo, Combo, etc.) */}
+            {/* Painel de Status */}
             <StatsBar
               timeRemaining={timeRemaining}
               streak={streak}
@@ -468,17 +488,20 @@ export default function App() {
 
       </main>
 
-      {/* Rodapé Informativo Acadêmico */}
-      <footer className="border-t border-slate-200/80 bg-white/60 py-4 text-center text-xs text-slate-500 backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-400">
+      {/* Rodapé Retrô Codédex */}
+      <footer className="border-t-[3px] border-black bg-white py-4 text-center font-pixel text-[10px] text-black dark:border-black dark:bg-[#121316] dark:text-slate-300">
         <div className="mx-auto flex max-w-5xl flex-col sm:flex-row items-center justify-between px-4 gap-2">
-          <p>
-            Desenvolvido para <strong>DSA 2026</strong> — Provão Paulista com ReactJS e Tailwind CSS
+          <p className="flex items-center justify-center gap-1.5">
+            <span className="inline-block h-2 w-2 bg-[#FFE600] border border-black" />
+            DSA.DEX 2026 • ESTILO CODÉDEX • PROVÃO PAULISTA
           </p>
-          <div className="flex items-center gap-4 text-[11px]">
-            <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
-              ● Pronto para Publicação na Vercel
+          <div className="flex items-center gap-4 text-[9px]">
+            <span className="text-[#22C55E] font-bold">
+              ● READY FOR VERCEL
             </span>
-            <span>Matheus</span>
+            <span className="font-bold text-[#7928CA] dark:text-[#00DFD8]">
+              DEVELOPED BY MATHEUS
+            </span>
           </div>
         </div>
       </footer>

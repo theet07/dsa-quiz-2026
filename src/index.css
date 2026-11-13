@@ -7,35 +7,95 @@
     box-sizing: border-box;
   }
   body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
   }
 }
 
-/* Custom Scrollbar */
+/* Fundo pontilhado estilo Codédex (Dot Grid / Pixel Matrix) */
+.bg-codedex-grid {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.12) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+
+.dark .bg-codedex-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+
+/* Botão Neo-Brutalist tátil estilo Codédex */
+.neo-box {
+  border: 2.5px solid #000000;
+  box-shadow: 4px 4px 0px 0px #000000;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .neo-box {
+  border: 2.5px solid #000000;
+  box-shadow: 4px 4px 0px 0px #FFE600;
+}
+
+.neo-btn {
+  border: 2.5px solid #000000;
+  box-shadow: 4px 4px 0px 0px #000000;
+  transition: all 0.12s ease-in-out;
+}
+
+.dark .neo-btn {
+  border: 2.5px solid #000000;
+  box-shadow: 4px 4px 0px 0px #FFE600;
+}
+
+.neo-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0px 0px #000000;
+}
+
+.dark .neo-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0px 0px #FFE600;
+}
+
+.neo-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0px 0px #000000;
+}
+
+.dark .neo-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0px 0px #FFE600;
+}
+
+/* Custom Scrollbar Codédex */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #FDFBF7;
+  border-left: 2px solid #000;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #121316;
+  border-left: 2px solid #333;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.4);
-  border-radius: 4px;
+  background: #FFE600;
+  border: 2px solid #000;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.7);
+  background: #FFD000;
 }
 
-/* Animações sutis e elegantes */
-@keyframes pulse-subtle {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.85; transform: scale(1.02); }
+/* Efeito de Scanline e Piscar Pixel */
+@keyframes blink-pixel {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
-.animate-pulse-subtle {
-  animation: pulse-subtle 2s infinite ease-in-out;
+.animate-pixel-blink {
+  animation: blink-pixel 1s infinite steps(1);
 }

@@ -7,12 +7,15 @@ import {
   Sun, 
   Moon, 
   BookOpen, 
-  GraduationCap 
+  Zap,
+  Gamepad2,
+  Heart
 } from 'lucide-react';
 
 export default function Navbar({ 
   score, 
   streak, 
+  lives = 3,
   soundEnabled, 
   onToggleSound, 
   darkMode, 
@@ -22,95 +25,109 @@ export default function Navbar({
   onResetQuiz
 }) {
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/90 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-900/90 transition-colors">
-      <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3 sm:px-6">
+    <header className="sticky top-0 z-40 w-full border-b-[3px] border-black bg-[#FDFBF7] dark:bg-[#121316] dark:border-black transition-colors">
+      <div className="mx-auto flex max-w-5xl items-center justify-between px-3 py-2.5 sm:px-6">
         
-        {/* Logo & Marca Acadêmica */}
+        {/* Logo Codédex Style */}
         <div 
           onClick={onResetQuiz}
-          className="flex cursor-pointer items-center gap-2.5 transition hover:opacity-90"
-          title="Clique para ir à página inicial do Quiz"
+          className="flex cursor-pointer items-center gap-2.5 transition active:scale-95"
+          title="Reiniciar Quest"
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 text-white shadow-md shadow-brand-500/25">
-            <GraduationCap className="h-5 w-5" />
+          {/* Caixa de Ícone Neo-brutalist */}
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg border-2 border-black bg-[#FFE600] text-black shadow-neo-sm">
+            <Gamepad2 className="h-5 w-5" />
           </div>
+
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="font-extrabold text-base tracking-tight text-slate-900 dark:text-white">
-                DSA 2026
+              <span className="font-pixel text-sm tracking-tight text-black dark:text-white font-bold">
+                DSA.DEX
               </span>
-              <span className="rounded-full bg-brand-100 px-2 py-0.5 text-[10px] font-semibold text-brand-700 dark:bg-brand-950/80 dark:text-brand-300">
-                Provão Paulista
+              <span className="rounded border border-black bg-[#00DFD8] px-1.5 py-0.2 text-[9px] font-pixel font-bold text-black uppercase shadow-[1px_1px_0px_#000]">
+                2026
               </span>
             </div>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400">
-              Revisão Web em ReactJS
+            <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+              Provão Paulista Quest
             </p>
           </div>
         </div>
 
-        {/* Indicadores de Desempenho e Ações */}
-        <div className="flex items-center gap-2 sm:gap-4">
+        {/* Indicadores de XP, Vidas e Ações */}
+        <div className="flex items-center gap-2 sm:gap-3">
           
-          {/* Streak de Acertos (Combo) */}
+          {/* Vidas / HP (Hearts) */}
+          <div className="hidden sm:flex items-center gap-1 rounded-lg border-2 border-black bg-white px-2 py-1 text-xs font-bold shadow-neo-sm dark:bg-[#1F2024] dark:border-black">
+            {[1, 2, 3].map((heartIndex) => (
+              <Heart 
+                key={heartIndex} 
+                className={`h-4 w-4 ${
+                  heartIndex <= lives 
+                    ? 'fill-[#FF4343] text-[#FF4343] animate-pulse-subtle' 
+                    : 'text-slate-300 dark:text-slate-600 fill-transparent'
+                }`} 
+              />
+            ))}
+          </div>
+
+          {/* Combo Streak */}
           {streak > 1 && (
-            <div className="flex items-center gap-1 rounded-full bg-amber-500/10 px-2.5 py-1 text-xs font-bold text-amber-600 dark:text-amber-400 animate-pulse-subtle border border-amber-500/20">
-              <Flame className="h-4 w-4 fill-amber-500 text-amber-500" />
-              <span>{streak}x Combo!</span>
+            <div className="flex items-center gap-1 rounded-lg border-2 border-black bg-[#FF0080] px-2.5 py-1 text-[11px] font-pixel font-bold text-white shadow-neo-sm animate-bounce">
+              <Flame className="h-3.5 w-3.5 fill-white text-white" />
+              <span>{streak}x</span>
             </div>
           )}
 
-          {/* Pontuação */}
-          <div className="flex items-center gap-1.5 rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-200">
-            <span className="text-slate-400 font-normal">Pontos:</span>
-            <span className="text-brand-600 dark:text-brand-400 text-sm font-extrabold">{score}</span>
+          {/* XP Badge Codédex */}
+          <div className="flex items-center gap-1.5 rounded-lg border-2 border-black bg-[#FFE600] px-3 py-1 text-xs font-pixel font-bold text-black shadow-neo-sm">
+            <Zap className="h-4 w-4 fill-black text-black" />
+            <span>{score} XP</span>
           </div>
 
           {/* Botão Ranking */}
           <button
             onClick={onOpenLeaderboard}
-            className="flex h-9 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 text-xs font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
-            title="Ver Ranking dos Alunos"
+            className="neo-btn flex h-9 items-center gap-1.5 rounded-lg bg-white px-2.5 text-xs font-bold text-black shadow-neo-sm dark:bg-[#1F2024] dark:text-white"
+            title="Ver Placar de Líderes"
           >
-            <Trophy className="h-4 w-4 text-amber-500" />
-            <span className="hidden sm:inline">Ranking</span>
+            <Trophy className="h-4 w-4 text-[#FFAA00]" />
+            <span className="hidden md:inline font-pixel text-[10px]">Rank</span>
           </button>
 
           {/* Botão Guia do Aluno / Copilot */}
           <button
             onClick={onOpenHelp}
-            className="flex h-9 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 text-xs font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
-            title="Explicação do Código e Componentes (Para Apresentação)"
+            className="neo-btn flex h-9 items-center gap-1.5 rounded-lg bg-white px-2.5 text-xs font-bold text-black shadow-neo-sm dark:bg-[#1F2024] dark:text-white"
+            title="Guia do Aluno & Código"
           >
-            <BookOpen className="h-4 w-4 text-indigo-500" />
-            <span className="hidden sm:inline">Código & Dicas</span>
+            <BookOpen className="h-4 w-4 text-[#7928CA]" />
+            <span className="hidden md:inline font-pixel text-[10px]">Guia</span>
           </button>
 
-          {/* Alternador de Áudio */}
+          {/* Botão Som Chiptune */}
           <button
             onClick={onToggleSound}
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
-            title={soundEnabled ? "Desativar efeitos sonoros" : "Ativar efeitos sonoros"}
-            aria-label="Controle de Áudio"
+            className="neo-btn flex h-9 w-9 items-center justify-center rounded-lg bg-white text-black shadow-neo-sm dark:bg-[#1F2024] dark:text-white"
+            title={soundEnabled ? "Desativar áudio 8-bit" : "Ativar áudio 8-bit"}
           >
             {soundEnabled ? (
-              <Volume2 className="h-4 w-4 text-brand-600 dark:text-brand-400" />
+              <Volume2 className="h-4 w-4 text-[#22C55E]" />
             ) : (
               <VolumeX className="h-4 w-4 text-slate-400" />
             )}
           </button>
 
-          {/* Alternador de Tema (Claro / Escuro) */}
+          {/* Botão Tema */}
           <button
             onClick={onToggleTheme}
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
-            title={darkMode ? "Mudar para modo claro" : "Mudar para modo escuro"}
-            aria-label="Alternar Tema"
+            className="neo-btn flex h-9 w-9 items-center justify-center rounded-lg bg-white text-black shadow-neo-sm dark:bg-[#1F2024] dark:text-white"
+            title="Alternar Tema"
           >
             {darkMode ? (
-              <Sun className="h-4 w-4 text-amber-400" />
+              <Sun className="h-4 w-4 text-[#FFE600]" />
             ) : (
-              <Moon className="h-4 w-4 text-slate-600" />
+              <Moon className="h-4 w-4 text-slate-700" />
             )}
           </button>
 

@@ -5,13 +5,20 @@ export default function ProgressBar({ current, total }) {
 
   return (
     <div className="w-full space-y-2">
-      <div className="flex items-center justify-between text-xs font-semibold text-slate-500 dark:text-slate-400">
-        <span>Questão {current + 1} de {total}</span>
-        <span className="text-brand-600 dark:text-brand-400 font-bold">{percentage}% concluído</span>
+      <div className="flex items-center justify-between font-pixel text-[11px] text-black dark:text-slate-300">
+        <span className="flex items-center gap-1.5 font-bold">
+          <span className="inline-block h-2 w-2 bg-[#FFE600] border border-black" />
+          FASE {current + 1} DE {total}
+        </span>
+        <span className="font-bold text-[#7928CA] dark:text-[#00DFD8]">
+          {percentage}% CARREGADO
+        </span>
       </div>
-      <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
+
+      {/* Barra de Vida / XP Neo-Brutalist */}
+      <div className="h-4 w-full overflow-hidden rounded-lg border-2 border-black bg-white p-0.5 shadow-neo-sm dark:bg-[#1F2024] dark:border-black">
         <div 
-          className="h-full rounded-full bg-gradient-to-r from-brand-500 via-indigo-500 to-cyan-500 transition-all duration-500 ease-out"
+          className="h-full rounded-sm bg-gradient-to-r from-[#FFE600] via-[#00DFD8] to-[#22C55E] border border-black/40 transition-all duration-300 ease-out"
           style={{ width: `${Math.max(percentage, 5)}%` }}
         />
       </div>

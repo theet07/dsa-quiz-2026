@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BookOpen, X, Code2, Layers, Cpu, Cloud, Database, Check } from 'lucide-react';
+import { BookOpen, X, Code2, Layers, Cpu, Cloud, Database, Check, Gamepad2 } from 'lucide-react';
 
 export default function CopilotHelpModal({ isOpen, onClose }) {
   const [activeTab, setActiveTab] = useState('components');
@@ -7,106 +7,99 @@ export default function CopilotHelpModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 p-4 backdrop-blur-sm">
-      <div className="relative w-full max-w-2xl rounded-3xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-900 max-h-[90vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm animate-fadeIn">
+      <div className="relative w-full max-w-2xl rounded-3xl border-[3px] border-black bg-[#FDFBF7] p-6 shadow-neo-lg dark:bg-[#1F2024] dark:border-black max-h-[90vh] flex flex-col">
         
-        {/* Topo */}
-        <div className="flex items-center justify-between border-b border-slate-100 pb-4 dark:border-slate-800">
+        {/* Topo estilo Codédex */}
+        <div className="flex items-center justify-between border-b-2 border-black/10 pb-4 dark:border-white/10">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-600 text-white">
-              <BookOpen className="h-5 w-5" />
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl border-2 border-black bg-[#FFE600] text-black shadow-neo-sm">
+              <Gamepad2 className="h-6 w-6" />
             </div>
             <div>
-              <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
-                Guia Acadêmico & Explicação do Código
+              <h2 className="font-pixel text-sm sm:text-base font-bold text-black dark:text-white uppercase">
+                GUIA DA QUEST • CODÉDEX DSA
               </h2>
-              <p className="text-xs text-slate-400">
-                Apoio para avaliação DSA 2026 e defesa da aplicação
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-sans">
+                Arquitetura do ReactJS, Props e Hooks para apresentação
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="rounded-lg p-1.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+            className="neo-btn rounded-lg bg-white p-2 text-black shadow-neo-sm dark:bg-[#121316] dark:text-white"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        {/* Abas */}
-        <div className="flex border-b border-slate-100 pt-3 dark:border-slate-800 gap-2 text-xs font-semibold">
+        {/* Abas com botões Neo-Brutalist */}
+        <div className="flex flex-wrap border-b-2 border-black/10 pt-3 dark:border-white/10 gap-2 font-pixel text-[10px]">
           <button
             onClick={() => setActiveTab('components')}
-            className={`flex items-center gap-1.5 pb-2.5 px-3 border-b-2 transition ${
+            className={`neo-btn rounded-lg px-3 py-1.5 transition ${
               activeTab === 'components'
-                ? 'border-brand-600 text-brand-600 dark:border-brand-400 dark:text-brand-400'
-                : 'border-transparent text-slate-400 hover:text-slate-600'
+                ? 'bg-[#FFE600] text-black'
+                : 'bg-white text-slate-700 dark:bg-[#16161A] dark:text-slate-300'
             }`}
           >
-            <Layers className="h-3.5 w-3.5" />
-            <span>Componentes & Props</span>
+            COMPONENTES & PROPS
           </button>
 
           <button
             onClick={() => setActiveTab('hooks')}
-            className={`flex items-center gap-1.5 pb-2.5 px-3 border-b-2 transition ${
+            className={`neo-btn rounded-lg px-3 py-1.5 transition ${
               activeTab === 'hooks'
-                ? 'border-brand-600 text-brand-600 dark:border-brand-400 dark:text-brand-400'
-                : 'border-transparent text-slate-400 hover:text-slate-600'
+                ? 'bg-[#00DFD8] text-black'
+                : 'bg-white text-slate-700 dark:bg-[#16161A] dark:text-slate-300'
             }`}
           >
-            <Cpu className="h-3.5 w-3.5" />
-            <span>useState & useEffect</span>
+            USESTATE & USEEFFECT
           </button>
 
           <button
             onClick={() => setActiveTab('database')}
-            className={`flex items-center gap-1.5 pb-2.5 px-3 border-b-2 transition ${
+            className={`neo-btn rounded-lg px-3 py-1.5 transition ${
               activeTab === 'database'
-                ? 'border-brand-600 text-brand-600 dark:border-brand-400 dark:text-brand-400'
-                : 'border-transparent text-slate-400 hover:text-slate-600'
+                ? 'bg-[#22C55E] text-white'
+                : 'bg-white text-slate-700 dark:bg-[#16161A] dark:text-slate-300'
             }`}
           >
-            <Database className="h-3.5 w-3.5" />
-            <span>Banco & Supabase</span>
+            SUPABASE & BANCO
           </button>
 
           <button
             onClick={() => setActiveTab('deploy')}
-            className={`flex items-center gap-1.5 pb-2.5 px-3 border-b-2 transition ${
+            className={`neo-btn rounded-lg px-3 py-1.5 transition ${
               activeTab === 'deploy'
-                ? 'border-brand-600 text-brand-600 dark:border-brand-400 dark:text-brand-400'
-                : 'border-transparent text-slate-400 hover:text-slate-600'
+                ? 'bg-[#FF0080] text-white'
+                : 'bg-white text-slate-700 dark:bg-[#16161A] dark:text-slate-300'
             }`}
           >
-            <Cloud className="h-3.5 w-3.5" />
-            <span>Publicação na Vercel</span>
+            VERCEL DEPLOY
           </button>
         </div>
 
         {/* Conteúdo Dinâmico */}
-        <div className="flex-1 overflow-y-auto py-4 text-xs sm:text-sm space-y-4 text-slate-600 dark:text-slate-300 pr-1 leading-relaxed">
+        <div className="flex-1 overflow-y-auto py-4 text-xs sm:text-sm space-y-4 text-slate-800 dark:text-slate-200 pr-1 leading-relaxed font-sans">
           
           {activeTab === 'components' && (
             <div className="space-y-3">
-              <h3 className="font-bold text-slate-900 dark:text-white">
-                Como os componentes foram organizados e quais dados recebem (Props):
+              <h3 className="font-pixel text-xs text-black dark:text-white uppercase">
+                Arquitetura Modular em Componentes React:
               </h3>
               <ul className="space-y-2.5">
-                <li className="rounded-xl border border-slate-100 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-800/50">
-                  <strong className="text-brand-600 dark:text-brand-400">1. Navbar:</strong> Recebe pontuação (`score`), combo (`streak`), estado de áudio (`soundEnabled`) e callbacks de tema/modais. Fica fixo no topo.
+                <li className="rounded-xl border-2 border-black bg-white p-3 shadow-neo-sm dark:bg-[#16161A]">
+                  <strong className="font-pixel text-[11px] text-[#7928CA] dark:text-[#FFE600]">1. Navbar:</strong> Cabeçalho com telemetria gamificada (XP acumulado, vidas ❤️, combo streak e controles de áudio 8-bit).
                 </li>
-                <li className="rounded-xl border border-slate-100 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-800/50">
-                  <strong className="text-brand-600 dark:text-brand-400">2. QuestionCard:</strong> Recebe o objeto da questão (`question`), a opção selecionada (`selectedOption`) e os handlers de ação. Contém os botões acessíveis e o feedback explicativo.
+                <li className="rounded-xl border-2 border-black bg-white p-3 shadow-neo-sm dark:bg-[#16161A]">
+                  <strong className="font-pixel text-[11px] text-[#00DFD8]">2. QuestionCard:</strong> Cartão principal com enunciado, bloco de código com botões CRT e alternativas táteis com atalhos 1-4.
                 </li>
-                <li className="rounded-xl border border-slate-100 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-800/50">
-                  <strong className="text-brand-600 dark:text-brand-400">3. ProgressBar:</strong> Recebe o índice atual e o total para calcular a barra dinâmica com interpolação suave.
+                <li className="rounded-xl border-2 border-black bg-white p-3 shadow-neo-sm dark:bg-[#16161A]">
+                  <strong className="font-pixel text-[11px] text-[#22C55E]">3. ProgressBar:</strong> Barra de XP e progresso dinâmico (Fase X de Y).
                 </li>
-                <li className="rounded-xl border border-slate-100 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-800/50">
-                  <strong className="text-brand-600 dark:text-brand-400">4. ResultScreen:</strong> Apresenta as estatísticas consolidadas, ranking com medalhas e acordeom de revisão com todas as respostas corretas.
-                </li>
-                <li className="rounded-xl border border-slate-100 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-800/50">
-                  <strong className="text-brand-600 dark:text-brand-400">5. Leaderboard:</strong> Gerencia o ranking salvo localmente no `localStorage`.
+                <li className="rounded-xl border-2 border-black bg-white p-3 shadow-neo-sm dark:bg-[#16161A]">
+                  <strong className="font-pixel text-[11px] text-[#FF0080]">4. ResultScreen:</strong> Ficha de vitória com medalhas e acordeom de revisão com explicação de cada questão.
                 </li>
               </ul>
             </div>
@@ -114,39 +107,32 @@ export default function CopilotHelpModal({ isOpen, onClose }) {
 
           {activeTab === 'hooks' && (
             <div className="space-y-3">
-              <h3 className="font-bold text-slate-900 dark:text-white">
-                Implementação dos Hooks ReactJS (Requisito 3):
+              <h3 className="font-pixel text-xs text-black dark:text-white uppercase">
+                Implementação dos Hooks (Requisito 3):
               </h3>
               
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-800/50">
-                <h4 className="font-bold text-brand-600 dark:text-brand-400 mb-1">
+              <div className="rounded-xl border-2 border-black bg-white p-3 shadow-neo-sm dark:bg-[#16161A]">
+                <h4 className="font-pixel text-[11px] text-[#7928CA] dark:text-[#FFE600] mb-1">
                   1. Hook useState
                 </h4>
-                <p>
-                  Utilizado para reatividade visual imediata:
+                <p className="text-xs">
+                  Armazena a reatividade instantânea da interface:
                 </p>
-                <code className="block my-2 rounded bg-slate-900 p-2 font-mono text-xs text-brand-300">
+                <code className="block my-2 rounded-lg border border-black bg-[#16161A] p-2 font-mono text-[11px] text-[#FFE600]">
+                  const [score, setScore] = useState(0); // XP acumulado<br />
                   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);<br />
-                  const [score, setScore] = useState(0);<br />
-                  const [selectedOption, setSelectedOption] = useState(null);<br />
-                  const [isAnswerSubmitted, setIsAnswerSubmitted] = useState(false);
+                  const [selectedOption, setSelectedOption] = useState(null);
                 </code>
-                <p className="text-xs text-slate-500">
-                  Ao confirmar uma resposta, `setScore` recalcula a pontuação com base no bônus de combo e atualiza a interface sem recarregar a página.
-                </p>
               </div>
 
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-800/50">
-                <h4 className="font-bold text-brand-600 dark:text-brand-400 mb-1">
+              <div className="rounded-xl border-2 border-black bg-white p-3 shadow-neo-sm dark:bg-[#16161A]">
+                <h4 className="font-pixel text-[11px] text-[#00DFD8] mb-1">
                   2. Hook useEffect
                 </h4>
-                <p>
-                  Utilizado para sincronização de efeitos colaterais:
-                </p>
                 <ul className="mt-1 list-disc list-inside space-y-1 text-xs">
-                  <li><strong>Persistência no localStorage:</strong> Salva o progresso do aluno a cada resposta e restaura automaticamente caso o aluno feche a aba.</li>
-                  <li><strong>Cronômetro da questão:</strong> Um `setInterval` de 30 segundos com função de limpeza (`clearInterval`) para prevenir vazamento de memória.</li>
-                  <li><strong>Atalhos de teclado acessíveis:</strong> `window.addEventListener('keydown')` para permitir responder com as teclas 1, 2, 3, 4 e Enter.</li>
+                  <li><strong>Persistência no localStorage:</strong> Salva o progresso e recupera se a página for fechada.</li>
+                  <li><strong>Cronômetro:</strong> Contagem regressiva de 30s por fase com <code>clearInterval</code>.</li>
+                  <li><strong>Teclado:</strong> Listener de atalhos numéricos <code>1, 2, 3, 4</code> e <code>Enter</code>.</li>
                 </ul>
               </div>
             </div>
@@ -154,60 +140,29 @@ export default function CopilotHelpModal({ isOpen, onClose }) {
 
           {activeTab === 'database' && (
             <div className="space-y-3">
-              <h3 className="font-bold text-slate-900 dark:text-white">
-                Como o Banco de Dados e o Supabase foram implementados (Requisito 4):
+              <h3 className="font-pixel text-xs text-black dark:text-white uppercase">
+                Banco de Dados & Supabase (Requisito 4):
               </h3>
-              
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-800/50">
-                <h4 className="font-bold text-brand-600 dark:text-brand-400 mb-1">
-                  Arquitetura Híbrida (Nuvem Supabase + Fallback Offline)
+              <div className="rounded-xl border-2 border-black bg-white p-3 shadow-neo-sm dark:bg-[#16161A]">
+                <h4 className="font-pixel text-[11px] text-[#22C55E] mb-1">
+                  Arquitetura Híbrida Nuvem + Fallback
                 </h4>
                 <p className="text-xs">
-                  O projeto suporta banco de dados na nuvem através do SDK oficial <code>@supabase/supabase-js</code>:
+                  Conectado à nuvem pelo pacote oficial <code>@supabase/supabase-js</code>. Se configurado, alimenta o ranking global da turma no PostgreSQL; caso contrário, opera localmente no <code>localStorage</code> sem quebras.
                 </p>
-                <ul className="mt-2 list-disc list-inside space-y-1 text-xs">
-                  <li><strong>Com Supabase:</strong> Todos os alunos que fizerem o quiz gravam e visualizam os resultados no mesmo ranking compartilhado em tempo real (PostgreSQL).</li>
-                  <li><strong>Sem Supabase (Offline):</strong> O aplicativo não quebra; ele salva o progresso e o ranking individualmente no <code>localStorage</code> do navegador.</li>
-                  <li><strong>Configuração Fácil:</strong> As credenciais podem ser passadas via variáveis de ambiente (<code>.env</code> com <code>VITE_SUPABASE_URL</code>) ou coladas diretamente na interface pelo botão "⚙️ Configurar Supabase" no placar.</li>
-                </ul>
-              </div>
-
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-800/50">
-                <h4 className="font-bold text-slate-900 dark:text-white mb-1">
-                  Estrutura da Tabela no PostgreSQL (Supabase):
-                </h4>
-                <code className="block my-1 rounded bg-slate-900 p-2 font-mono text-[11px] text-brand-300 overflow-x-auto">
-                  create table public.leaderboard (<br />
-                  &nbsp;&nbsp;id bigint generated by default as identity primary key,<br />
-                  &nbsp;&nbsp;name text not null,<br />
-                  &nbsp;&nbsp;score integer not null,<br />
-                  &nbsp;&nbsp;accuracy integer not null,<br />
-                  &nbsp;&nbsp;total_time integer not null,<br />
-                  &nbsp;&nbsp;created_at timestamp with time zone default timezone('utc'::text, now()) not null<br />
-                  );
-                </code>
               </div>
             </div>
           )}
 
           {activeTab === 'deploy' && (
             <div className="space-y-3">
-              <h3 className="font-bold text-slate-900 dark:text-white">
-                Como publicar o projeto na Vercel (Requisito 5):
+              <h3 className="font-pixel text-xs text-black dark:text-white uppercase">
+                Publicação na Vercel (Requisito 5):
               </h3>
-              <ol className="space-y-2 list-decimal list-inside">
-                <li>
-                  <strong>Subir para o GitHub:</strong> O projeto já possui repositório Git inicializado. Basta criar um repositório no GitHub e rodar `git push origin main`.
-                </li>
-                <li>
-                  <strong>Importar na Vercel:</strong> Acesse <a href="https://vercel.com/new" target="_blank" rel="noreferrer" className="text-brand-600 underline">vercel.com/new</a>, conecte sua conta do GitHub e selecione o repositório `dsa-quiz-2026`.
-                </li>
-                <li>
-                  <strong>Configurações do Build:</strong> A Vercel detecta o framework <strong>Vite</strong> automaticamente. Basta clicar em <strong>Deploy</strong>.
-                </li>
-                <li>
-                  <strong>Testar em Janela Anônima:</strong> Abra a URL pública gerada (ex: `https://dsa-quiz-2026.vercel.app`) em uma janela anônima e teste responder às questões.
-                </li>
+              <ol className="space-y-2 list-decimal list-inside text-xs">
+                <li>Suba o projeto para o GitHub: <code>git push origin main</code>.</li>
+                <li>Importe no <strong>vercel.com/new</strong> e clique em <strong>Deploy</strong>.</li>
+                <li>Teste a URL pública gerada em janela anônima e envie no Provão Paulista!</li>
               </ol>
             </div>
           )}
@@ -215,12 +170,12 @@ export default function CopilotHelpModal({ isOpen, onClose }) {
         </div>
 
         {/* Rodapé */}
-        <div className="border-t border-slate-100 pt-3 dark:border-slate-800 flex justify-end">
+        <div className="border-t-2 border-black/10 pt-3 dark:border-white/10 flex justify-end">
           <button
             onClick={onClose}
-            className="rounded-xl bg-brand-600 px-4 py-2 text-xs font-bold text-white transition hover:bg-brand-700"
+            className="neo-btn rounded-xl bg-[#FFE600] px-5 py-2 font-pixel text-xs font-bold text-black uppercase cursor-pointer"
           >
-            Entendi, voltar ao Quiz
+            VOLTAR AO JOGO
           </button>
         </div>
 

@@ -5,7 +5,8 @@ import {
   ArrowRight, 
   Check, 
   HelpCircle, 
-  Lightbulb 
+  Lightbulb,
+  Gamepad2
 } from 'lucide-react';
 import CategoryBadge from './CategoryBadge';
 import CodeBlock from './CodeBlock';
@@ -23,47 +24,51 @@ export default function QuestionCard({
   const isCorrect = selectedOption === question.correctAnswer;
 
   return (
-    <div className="w-full rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all sm:p-7 dark:border-slate-800 dark:bg-slate-900">
+    <div className="w-full rounded-2xl border-[3px] border-black bg-white p-5 shadow-neo-lg transition-all sm:p-7 dark:bg-[#1F2024] dark:border-black">
       
-      {/* Cabeçalho da Questão */}
-      <div className="mb-4 flex items-center justify-between">
+      {/* Topo da Questão */}
+      <div className="mb-4 flex items-center justify-between border-b-2 border-black/10 pb-3 dark:border-white/10">
         <CategoryBadge 
           category={question.category} 
           difficulty={question.difficulty} 
         />
-        <span className="text-xs font-semibold text-slate-400">
-          ID #{question.id}
+        <span className="font-pixel text-[10px] font-bold text-slate-500 dark:text-slate-400">
+          QUEST #{question.id.toString().padStart(2, '0')}
         </span>
       </div>
 
       {/* Enunciado */}
-      <h2 className="text-base font-bold leading-relaxed text-slate-900 sm:text-lg dark:text-slate-100">
+      <h2 className="text-base sm:text-lg font-bold leading-relaxed text-black dark:text-white">
         {question.question}
       </h2>
 
-      {/* Bloco de Código (se houver) */}
+      {/* Bloco de Código Retrô (se houver) */}
       {question.code && (
         <CodeBlock code={question.code} />
       )}
 
-      {/* Lista de Alternativas */}
+      {/* Opções de Resposta Neo-Brutalist */}
       <div className="mt-5 space-y-3" role="radiogroup" aria-label="Opções de resposta">
         {question.options.map((option, index) => {
           const isSelected = selectedOption === index;
           const isThisCorrect = index === question.correctAnswer;
 
-          let optionStyle = "border-slate-200 bg-slate-50/60 hover:bg-slate-100/80 text-slate-700 dark:border-slate-800 dark:bg-slate-800/40 dark:text-slate-200 dark:hover:bg-slate-800/80";
+          let btnClass = "border-[2.5px] border-black bg-[#FDFBF7] text-black shadow-neo-sm hover:bg-[#FFF8D6] dark:bg-[#16161A] dark:text-white dark:hover:bg-[#252830]";
+          let keycapClass = "border border-black bg-[#E5E7EB] text-black dark:bg-[#2A2B30] dark:text-white";
 
           if (isAnswerSubmitted) {
             if (isThisCorrect) {
-              optionStyle = "border-emerald-500 bg-emerald-50/90 text-emerald-900 dark:border-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-200 ring-2 ring-emerald-500/30";
+              btnClass = "border-[2.5px] border-black bg-[#22C55E] text-white shadow-neo ring-2 ring-black";
+              keycapClass = "border border-black bg-white text-black";
             } else if (isSelected && !isThisCorrect) {
-              optionStyle = "border-rose-500 bg-rose-50/90 text-rose-900 dark:border-rose-600 dark:bg-rose-950/60 dark:text-rose-200 ring-2 ring-rose-500/30";
+              btnClass = "border-[2.5px] border-black bg-[#FF4343] text-white shadow-neo ring-2 ring-black";
+              keycapClass = "border border-black bg-white text-black";
             } else {
-              optionStyle = "border-slate-200 opacity-50 dark:border-slate-800 dark:opacity-40 text-slate-500";
+              btnClass = "border-[2px] border-slate-300 opacity-40 bg-slate-100 text-slate-500 dark:border-slate-700 dark:bg-slate-900";
             }
           } else if (isSelected) {
-            optionStyle = "border-brand-600 bg-brand-50/80 text-brand-900 ring-2 ring-brand-500/30 dark:border-brand-500 dark:bg-brand-950/50 dark:text-brand-100";
+            btnClass = "border-[2.5px] border-black bg-[#FFE600] text-black shadow-neo translate-x-[-1px] translate-y-[-1px]";
+            keycapClass = "border border-black bg-black text-[#FFE600]";
           }
 
           return (
@@ -71,25 +76,17 @@ export default function QuestionCard({
               key={index}
               onClick={() => !isAnswerSubmitted && onSelectOption(index)}
               disabled={isAnswerSubmitted}
-              className={`group relative flex w-full items-center justify-between rounded-xl border p-3.5 text-left text-sm font-medium transition-all duration-150 sm:p-4 ${optionStyle} ${
-                !isAnswerSubmitted ? 'cursor-pointer active:scale-[0.99]' : 'cursor-default'
+              className={`group flex w-full items-center justify-between rounded-xl p-3.5 text-left text-sm font-bold transition-all sm:p-4 ${btnClass} ${
+                !isAnswerSubmitted ? 'cursor-pointer active:translate-x-[2px] active:translate-y-[2px] active:shadow-none' : 'cursor-default'
               }`}
             >
               <div className="flex items-center gap-3">
-                {/* Rótulo de Tecla / Letra */}
-                <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-xs font-bold transition-colors ${
-                  isSelected && !isAnswerSubmitted
-                    ? 'bg-brand-600 text-white dark:bg-brand-500'
-                    : isAnswerSubmitted && isThisCorrect
-                    ? 'bg-emerald-600 text-white'
-                    : isAnswerSubmitted && isSelected && !isThisCorrect
-                    ? 'bg-rose-600 text-white'
-                    : 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-300'
-                }`}>
+                {/* Tecla / Rótulo Keycap */}
+                <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg font-pixel text-xs font-bold ${keycapClass}`}>
                   {letters[index]}
                 </span>
 
-                <span className="leading-snug">
+                <span className="leading-snug font-sans">
                   {option}
                 </span>
               </div>
@@ -98,9 +95,9 @@ export default function QuestionCard({
               {isAnswerSubmitted && (
                 <div className="ml-2 shrink-0">
                   {isThisCorrect ? (
-                    <CheckCircle2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                    <CheckCircle2 className="h-6 w-6 text-white drop-shadow" />
                   ) : isSelected ? (
-                    <XCircle className="h-5 w-5 text-rose-600 dark:text-rose-400" />
+                    <XCircle className="h-6 w-6 text-white drop-shadow" />
                   ) : null}
                 </div>
               )}
@@ -109,31 +106,32 @@ export default function QuestionCard({
         })}
       </div>
 
-      {/* Caixa de Feedback Didático Explicativo */}
+      {/* Caixa de Diálogo Didática estilo RPG */}
       {isAnswerSubmitted && (
-        <div className={`mt-5 rounded-xl border p-4 transition-all duration-300 ${
+        <div className={`mt-5 rounded-xl border-[2.5px] border-black p-4 shadow-neo-sm animate-fadeIn ${
           isCorrect 
-            ? 'border-emerald-200 bg-emerald-50/70 text-emerald-900 dark:border-emerald-900/60 dark:bg-emerald-950/40 dark:text-emerald-200'
-            : 'border-rose-200 bg-rose-50/70 text-rose-900 dark:border-rose-900/60 dark:bg-rose-950/40 dark:text-rose-200'
+            ? 'bg-[#ECFDF5] text-[#065F46] dark:bg-[#064E3B] dark:text-[#D1FAE5]' 
+            : 'bg-[#FEF2F2] text-[#991B1B] dark:bg-[#7F1D1D] dark:text-[#FEE2E2]'
         }`}>
-          <div className="flex items-start gap-2.5">
-            {isCorrect ? (
-              <Check className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600 dark:text-emerald-400" />
-            ) : (
-              <HelpCircle className="mt-0.5 h-5 w-5 shrink-0 text-rose-600 dark:text-rose-400" />
-            )}
+          <div className="flex items-start gap-3">
+            <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border-2 border-black ${
+              isCorrect ? 'bg-[#22C55E] text-white' : 'bg-[#FF4343] text-white'
+            }`}>
+              {isCorrect ? <Check className="h-5 w-5" /> : <HelpCircle className="h-5 w-5" />}
+            </div>
+            
             <div className="space-y-1.5 text-xs sm:text-sm">
-              <p className="font-bold">
-                {isCorrect ? 'Excelente! Resposta Correta.' : 'Ops! Resposta Incorreta.'}
+              <p className="font-pixel text-[11px] font-bold uppercase tracking-wider">
+                {isCorrect ? '★ RESPOSTA CORRETA (+XP CONCEDIDO)' : '✕ RESPOSTA INCORRETA (HP REDUZIDO)'}
               </p>
-              <p className="leading-relaxed opacity-90">
+              <p className="font-sans leading-relaxed font-medium">
                 {question.explanation}
               </p>
               {question.tip && (
-                <div className="mt-2 flex items-center gap-1.5 font-semibold text-slate-700 dark:text-slate-300">
-                  <Lightbulb className="h-3.5 w-3.5 text-amber-500 shrink-0" />
-                  <span className="text-[11px] sm:text-xs">
-                    <strong>Dica para o Provão:</strong> {question.tip}
+                <div className="mt-2.5 flex items-center gap-1.5 rounded-lg border border-black/20 bg-white/70 p-2 text-black dark:bg-black/30 dark:text-white">
+                  <Lightbulb className="h-4 w-4 text-[#FFE600] shrink-0 fill-[#FFE600]" />
+                  <span className="text-[11px] font-bold">
+                    <strong>Dica de Mestre:</strong> {question.tip}
                   </span>
                 </div>
               )}
@@ -142,10 +140,10 @@ export default function QuestionCard({
         </div>
       )}
 
-      {/* Botões de Ação Principais (Rótulos Claros & Responsivos) */}
-      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-t border-slate-100 pt-5 dark:border-slate-800">
-        <p className="text-xs text-slate-400 hidden sm:block">
-          {!isAnswerSubmitted ? "Pressione 1-4 no teclado para escolher e Enter para confirmar" : "Pressione Enter para ir à próxima"}
+      {/* Botões de Ação Principais */}
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-t-2 border-black/10 pt-5 dark:border-white/10">
+        <p className="font-pixel text-[10px] text-slate-500 hidden sm:block">
+          {!isAnswerSubmitted ? "PRESSIONE [1-4] PARA ESCOLHER • [ENTER] PARA CONFIRMAR" : "PRESSIONE [ENTER] PARA AVANÇAR"}
         </p>
 
         <div className="flex items-center justify-end w-full sm:w-auto">
@@ -153,21 +151,21 @@ export default function QuestionCard({
             <button
               onClick={onConfirmAnswer}
               disabled={selectedOption === null}
-              className={`flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-bold shadow-md transition-all ${
+              className={`neo-btn flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl px-7 py-3 font-pixel text-xs font-bold uppercase tracking-wider ${
                 selectedOption !== null
-                  ? 'bg-brand-600 text-white hover:bg-brand-700 active:scale-[0.98] shadow-brand-500/20'
-                  : 'bg-slate-200 text-slate-400 cursor-not-allowed dark:bg-slate-800 dark:text-slate-600 shadow-none'
+                  ? 'bg-[#FFE600] text-black cursor-pointer'
+                  : 'bg-slate-200 text-slate-400 cursor-not-allowed border-slate-300 shadow-none dark:bg-slate-800 dark:text-slate-600'
               }`}
             >
-              <span>Confirmar Resposta</span>
+              <span>CONFIRMAR RESPOSTA</span>
               <Check className="h-4 w-4" />
             </button>
           ) : (
             <button
               onClick={onNextQuestion}
-              className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 px-6 py-3 text-sm font-bold text-white shadow-md shadow-brand-500/25 transition-all hover:from-brand-700 hover:to-indigo-700 active:scale-[0.98]"
+              className="neo-btn flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-[#00DFD8] px-7 py-3 font-pixel text-xs font-bold text-black uppercase tracking-wider cursor-pointer"
             >
-              <span>{isLastQuestion ? 'Ver Desempenho Final' : 'Próxima Questão'}</span>
+              <span>{isLastQuestion ? 'VER RESULTADO FINAL' : 'PRÓXIMA FASE'}</span>
               <ArrowRight className="h-4 w-4" />
             </button>
           )}
