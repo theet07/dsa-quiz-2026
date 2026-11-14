@@ -1,74 +1,27 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Chaves podem vir do .env (Vite) ou do localStorage (configurável pelo próprio usuário na interface)
-const STORAGE_SUPABASE_CONFIG = 'dsa_quiz_2026_supabase_config';
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || '';
 
-export function getStoredSupabaseConfig() {
-  try {
-    const raw = localStorage.getItem(STORAGE_SUPABASE_CONFIG);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (parsed && parsed.url && parsed.anonKey) {
-        return parsed;
-      }
-    }
-  } catch (e) {
-    console.error('Erro ao ler configuração do Supabase:', e);
-  }
-  return {
-    url: import.meta.env.VITE_SUPABASE_URL || '',
-    anonKey: import.meta.env.VITE_SUPABASE_ANON_KEY || import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || '',
-  };
-}
-
-export function saveStoredSupabaseConfig(url, anonKey) {
-  try {
-    localStorage.setItem(STORAGE_SUPABASE_CONFIG, JSON.stringify({ url, anonKey }));
-  } catch (e) {
-    console.error('Erro ao salvar configuração do Supabase:', e);
-  }
-}
-
-export function clearStoredSupabaseConfig() {
-  try {
-    localStorage.removeItem(STORAGE_SUPABASE_CONFIG);
-  } catch (e) {
-    console.error('Erro ao remover configuração do Supabase:', e);
-  }
-}
-
-// Cria a instância do cliente Supabase se as credenciais forem válidas
 let cachedClient = null;
-let lastUsedConfig = null;
 
 export function getSupabase() {
-  const config = getStoredSupabaseConfig();
-  const isValid = Boolean(
-    config.url && 
-    config.url.startsWith('https://') && 
-    config.anonKey && 
-    config.anonKey.length > 20
-  );
-
-  if (!isValid) return null;
+  if (cachedClient) return cachedClient;
 
   if (
-    cachedClient && 
-    lastUsedConfig && 
-    lastUsedConfig.url === config.url && 
-    lastUsedConfig.anonKey === config.anonKey
+    supabaseUrl && 
+    supabaseUrl.startsWith('https://') && 
+    supabaseAnonKey && 
+    supabaseAnonKey.length > 20
   ) {
-    return cachedClient;
+    try {
+      cachedClient = createClient(supabaseUrl, supabaseAnonKey);
+      return cachedClient;
+    } catch (err) {
+      console.error('Erro ao inicializar Supabase:', err);
+    }
   }
-
-  try {
-    cachedClient = createClient(config.url, config.anonKey);
-    lastUsedConfig = config;
-    return cachedClient;
-  } catch (err) {
-    console.error('Erro ao inicializar Supabase:', err);
-    return null;
-  }
+  return null;
 }
 
 export function isSupabaseActive() {
