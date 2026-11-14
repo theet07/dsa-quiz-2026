@@ -47,7 +47,7 @@ export function clearActiveSession() {
 // Mock inicial para visualização antes de qualquer inserção
 const DEFAULT_LEADERBOARD = [
   { id: '1', name: 'Alana Silva (DSA)', score: 900, accuracy: 90, totalTime: 120, date: '12/11/2026' },
-  { id: '2', name: 'Lucas Dev (Provão)', score: 800, accuracy: 80, totalTime: 145, date: '11/11/2026' },
+  { id: '2', name: 'Lucas Dev (React)', score: 800, accuracy: 80, totalTime: 145, date: '11/11/2026' },
   { id: '3', name: 'Beatriz Costa', score: 700, accuracy: 70, totalTime: 160, date: '10/11/2026' },
 ];
 

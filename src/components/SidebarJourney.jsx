@@ -55,8 +55,8 @@ export default function SidebarJourney({
                 DSA '26
               </span>
             </div>
-            <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mt-0.5">
-              Mapa das 10 Quests do Provão
+            <p className="text-[11px] font-semibold text-slate-400 mt-0.5">
+              10 Fases Interativas de JavaScript
             </p>
           </div>
         ) : (

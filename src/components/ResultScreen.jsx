@@ -51,7 +51,7 @@ export default function ResultScreen({
         title: "MESTRE DO JAVASCRIPT",
         level: "LVL. 99 • OURO",
         bg: "bg-[#FFE600] text-black",
-        desc: "Domínio lendário! Você destruiu o Provão Paulista!"
+        desc: "Domínio lendário! Você conquistou todas as fases com maestria!"
       };
     }
     if (accuracy >= 70) {
@@ -59,7 +59,7 @@ export default function ResultScreen({
         title: "DEV FLUENTE DSA",
         level: "LVL. 50 • PRATA",
         bg: "bg-[#00DFD8] text-black",
-        desc: "Excelente execução! Você está pronto para o Provão."
+        desc: "Excelente execução! Você domina os conceitos essenciais de JavaScript e React."
       };
     }
     if (accuracy >= 50) {
@@ -93,14 +93,14 @@ export default function ResultScreen({
   };
 
   const handleShare = () => {
-    const text = `🎮 Completei a Quest DSA.DEX 2026 (Provão Paulista)!\n⚡ XP Total: ${score} XP | 🎯 Acurácia: ${accuracy}%\n🏆 Rank: ${rank.title} [${rank.level}]!`;
+    const text = `🎮 Completei a Jornada DSA 2026 de JavaScript & React!\n⚡ XP Total: ${score} XP | 🎯 Acurácia: ${accuracy}%\n🏆 Rank: ${rank.title} [${rank.level}]!`;
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   };
 
   return (
-    <div className="w-full max-w-3xl space-y-6">
+    <div className="w-full max-w-5xl space-y-6">
       
       {/* Cartão de Fim de Quest estilo Codédex */}
       <div className="overflow-hidden rounded-3xl border-[3px] border-black bg-white p-6 sm:p-9 text-center shadow-neo-lg dark:bg-[#1F2024] dark:border-black">

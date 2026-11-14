@@ -293,9 +293,9 @@ export default function App() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#FAF7EE] text-[#12141A] bg-codedex-grid transition-colors duration-200 dark:bg-[#0D0E12] dark:text-[#F3F4F6]">
+    <div className="flex min-h-screen flex-col w-full bg-[#08090E] text-[#F3F4F6] transition-colors duration-200 overflow-x-hidden">
       
-      {/* Barra de Navegação Superior Codédex (Largura Total Widescreen) */}
+      {/* Barra de Navegação Superior (Largura Total Widescreen) */}
       <Navbar
         score={score}
         streak={streak}
@@ -313,10 +313,10 @@ export default function App() {
 
       {/* ÁREA CENTRAL DO APLICATIVO */}
       {quizState === 'quiz' ? (
-        // MODO WIDESCREEN CODÉDEX COM SIDEBAR JOURNEY + WORKSPACE DE 2 COLUNAS
+        // MODO WIDESCREEN COM SIDEBAR JOURNEY + WORKSPACE DE 2 COLUNAS
         <div className="flex flex-1 w-full overflow-hidden">
           
-          {/* Sidebar do Mapa do Curso (The JS Journey) */}
+          {/* Sidebar do Mapa do Curso */}
           <SidebarJourney
             questions={QUIZ_QUESTIONS}
             currentQuestionIndex={currentQuestionIndex}
@@ -329,7 +329,7 @@ export default function App() {
 
           {/* Área de Trabalho Principal (Espaçosa e Aberta) */}
           <div className="flex-1 flex flex-col overflow-y-auto px-4 lg:px-8 py-5">
-            <div className="w-full max-w-[1360px] mx-auto space-y-4 flex-1 flex flex-col justify-between">
+            <div className="w-full max-w-[1440px] mx-auto space-y-4 flex-1 flex flex-col justify-between">
               
               {/* Barra de Status e Progresso Superior */}
               <div className="space-y-3">
@@ -364,59 +364,62 @@ export default function App() {
           </div>
 
         </div>
+      ) : quizState === 'start' ? (
+        // TELA 1: Boas-vindas 100% Widescreen Edge-to-Edge com Cenário Pixel Art
+        <div className="w-full flex-1 flex flex-col">
+          <StartScreen
+            questions={QUIZ_QUESTIONS}
+            savedSession={savedSession}
+            onResumeSaved={handleResumeSavedSession}
+            onDiscardSaved={() => {
+              clearActiveSession();
+              setSavedSession(null);
+            }}
+            onStartNew={handleStartNewQuiz}
+            onOpenHelp={() => setIsHelpOpen(true)}
+            onOpenLeaderboard={() => setIsLeaderboardOpen(true)}
+          />
+        </div>
       ) : (
-        // OUTRAS TELAS (Início do Curso ou Fim de Jogo)
-        <main className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-8">
-          
-          {/* TELA 1: Boas-vindas Espaçosa estilo Codédex */}
-          {quizState === 'start' && (
-            <StartScreen
-              questions={QUIZ_QUESTIONS}
-              savedSession={savedSession}
-              onResumeSaved={handleResumeSavedSession}
-              onDiscardSaved={() => {
-                clearActiveSession();
-                setSavedSession(null);
-              }}
-              onStartNew={handleStartNewQuiz}
-              onOpenHelp={() => setIsHelpOpen(true)}
-              onOpenLeaderboard={() => setIsLeaderboardOpen(true)}
-            />
-          )}
-
-          {/* TELA 3: Tela de Resultados Finais */}
-          {quizState === 'finished' && (
-            <ResultScreen
-              score={score}
-              userAnswers={userAnswers}
-              questions={QUIZ_QUESTIONS}
-              totalTime={totalTime}
-              onRestart={handleStartNewQuiz}
-              onSaveScore={handleSaveScore}
-              onViewLeaderboard={() => setIsLeaderboardOpen(true)}
-            />
-          )}
-
+        // TELA 3: Tela de Resultados Finais Espaçosa
+        <main className="flex-1 flex items-center justify-center p-4 sm:p-8 lg:p-12 w-full">
+          <ResultScreen
+            score={score}
+            userAnswers={userAnswers}
+            questions={QUIZ_QUESTIONS}
+            totalTime={totalTime}
+            onRestart={handleStartNewQuiz}
+            onSaveScore={handleSaveScore}
+            onViewLeaderboard={() => setIsLeaderboardOpen(true)}
+          />
         </main>
       )}
 
-      {/* Rodapé Retrô Codédex */}
-      <footer className="border-t-2 border-black/80 bg-white py-3 px-4 text-center font-pixel text-[10px] text-black dark:border-codedex-borderDark dark:bg-[#12141A] dark:text-slate-300">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-2 max-w-full px-4">
-          <p className="flex items-center gap-1.5">
-            <span className="inline-block h-2 w-2 bg-[#00E599] border border-black" />
-            CODÉDEX PLATFORM • DSA 2026 PROVÃO PAULISTA QUEST
+      {/* Rodapé Limpo e Minimalista */}
+      <footer className="border-t border-[#1C1E24] bg-[#0A0B0E] py-6 px-6 text-center font-sans text-xs text-slate-400">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 max-w-7xl mx-auto">
+          <p className="flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-[#00E599]" />
+            <span>© 2026 DSA — Plataforma Interativa de Aprendizagem Web</span>
           </p>
-          <div className="flex items-center gap-4 text-[9px]">
-            <span className="text-[#00E599] font-bold">
-              ● VERCEL READY
-            </span>
-            <span className="font-bold text-[#8B5CF6] dark:text-[#FFE600]">
-              AUTOR: MATHEUS
-            </span>
+          <div className="flex items-center gap-6 text-xs text-slate-400">
+            <span>JavaScript & React</span>
+            <span>•</span>
+            <span>Web Audio API</span>
+            <span>•</span>
+            <span>10 Fases Interativas</span>
           </div>
         </div>
       </footer>
+
+      {/* Botão Flutuante de Ajuda com Smile :) igual ao Screenshot */}
+      <button
+        onClick={() => setIsHelpOpen(true)}
+        className="fixed bottom-6 right-6 z-40 h-12 w-12 rounded-2xl bg-[#FFE600] border-2 border-black shadow-[3px_3px_0px_#000] flex items-center justify-center text-black font-pixel text-xl hover:scale-105 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all cursor-pointer"
+        title="Ajuda & Guia de Código"
+      >
+        :)
+      </button>
 
       {/* Modais Globais */}
       <Leaderboard

@@ -1,4 +1,4 @@
-// Banco de Questões de Revisão DSA 2026 — JavaScript & ReactJS (Provão Paulista)
+// Banco de Questões de Revisão DSA 2026 — JavaScript & ReactJS
 
 export const QUIZ_QUESTIONS = [
   {
@@ -41,7 +41,7 @@ if (pontos === bonus) {
     ],
     correctAnswer: 1,
     explanation: "O operador de igualdade estrita (===) verifica tanto o valor quanto o tipo do dado ('100' é String e 100 é Number, logo é falso). Já o operador (==) realiza coerção de tipos antes de comparar, convertendo a string em número e resultando em true.",
-    tip: "No Provão Paulista e no mercado, prefira sempre === para evitar bugs com coerção implícita."
+    tip: "Em JavaScript profissional e entrevistas técnicas, prefira sempre === para evitar bugs com coerção implícita."
   },
   {
     id: 3,

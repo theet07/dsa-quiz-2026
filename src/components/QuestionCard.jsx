@@ -72,13 +72,13 @@ export default function QuestionCard({
                     className="flex items-center gap-1.5 font-pixel text-[10px] text-[#7928CA] dark:text-[#FFE600] font-bold hover:underline"
                   >
                     <Lightbulb className="h-3.5 w-3.5" />
-                    <span>PRECISA DE UMA DICA? [VER DICA DO PROVÃO]</span>
+                    <span>PRECISA DE UMA DICA? [VER DICA DE CÓDIGO]</span>
                   </button>
                 ) : (
                   <div className="rounded-xl border border-black/20 bg-[#FFFBEA] p-3 text-xs font-semibold text-amber-950 dark:bg-amber-950/30 dark:text-amber-200 animate-fadeIn">
                     <div className="flex items-center gap-1.5 font-pixel text-[10px] text-amber-800 dark:text-amber-400 mb-1">
                       <Lightbulb className="h-3.5 w-3.5" />
-                      DICA DO PROVÃO:
+                      DICA DE CÓDIGO:
                     </div>
                     <p className="font-sans leading-normal font-medium">{question.tip}</p>
                   </div>

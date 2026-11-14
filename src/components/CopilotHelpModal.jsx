@@ -18,10 +18,10 @@ export default function CopilotHelpModal({ isOpen, onClose }) {
             </div>
             <div>
               <h2 className="font-pixel text-sm sm:text-base font-bold text-black dark:text-white uppercase">
-                GUIA DA QUEST • CODÉDEX DSA
+                GUIA DA JORNADA • DSA 2026
               </h2>
               <p className="text-xs text-slate-500 dark:text-slate-400 font-sans">
-                Arquitetura do ReactJS, Props e Hooks para apresentação
+                Arquitetura do ReactJS, Props, Hooks e Banco de Dados
               </p>
             </div>
           </div>
@@ -162,7 +162,7 @@ export default function CopilotHelpModal({ isOpen, onClose }) {
               <ol className="space-y-2 list-decimal list-inside text-xs">
                 <li>Suba o projeto para o GitHub: <code>git push origin main</code>.</li>
                 <li>Importe no <strong>vercel.com/new</strong> e clique em <strong>Deploy</strong>.</li>
-                <li>Teste a URL pública gerada em janela anônima e envie no Provão Paulista!</li>
+                <li>Teste a URL pública gerada em janela anônima e envie no portal de entrega!</li>
               </ol>
             </div>
           )}
