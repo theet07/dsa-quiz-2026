@@ -1,5 +1,5 @@
 # DSA 2026 — Desenvolvimento e Publicação de um Aplicativo Web
-> **Projeto de Avaliação — Provão Paulista 2026**  
+> **Projeto de Avaliação — DSA 2026**  
 > **Tema:** Revisão Interativa de JavaScript e ReactJS com Persistência e Design Responsivo  
 > **Autor:** Matheus  
 > **Data de Entrega:** 16 de novembro de 2026 às 23:59  
@@ -8,7 +8,7 @@
 
 ## 🎯 Visão Geral do Projeto
 
-O **DSA Quiz 2026** é uma aplicação web moderna desenvolvida em **ReactJS** com **Tailwind CSS**, criada para auxiliar estudantes a revisar os principais conceitos de **JavaScript** e **React** estudados ao longo do ano letivo de 2026 em DSA (Desenvolvimento de Sistemas / Aprendizagem) voltados para o **Provão Paulista**.
+O **DSA Quiz 2026** é uma aplicação web moderna desenvolvida em **ReactJS** com **Tailwind CSS**, criada para auxiliar estudantes a revisar os principais conceitos de **JavaScript** e **React** estudados ao longo do ano letivo de 2026 em DSA (Desenvolvimento de Sistemas / Aprendizagem).
 
 A aplicação foi estruturada segundo as melhores práticas de engenharia de software:
 - **Componentização modular**: Cada elemento de interface possui responsabilidade única e recebe dados via *props*.
