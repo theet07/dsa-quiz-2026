@@ -6,7 +6,12 @@ const STORAGE_SUPABASE_CONFIG = 'dsa_quiz_2026_supabase_config';
 export function getStoredSupabaseConfig() {
   try {
     const raw = localStorage.getItem(STORAGE_SUPABASE_CONFIG);
-    if (raw) return JSON.parse(raw);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && parsed.url && parsed.anonKey) {
+        return parsed;
+      }
+    }
   } catch (e) {
     console.error('Erro ao ler configuração do Supabase:', e);
   }
