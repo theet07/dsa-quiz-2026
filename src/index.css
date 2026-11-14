@@ -7,95 +7,102 @@
     box-sizing: border-box;
   }
   body {
-    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
   }
 }
 
-/* Fundo pontilhado estilo Codédex (Dot Grid / Pixel Matrix) */
+/* Fundo pontilhado sutil estilo Codédex */
 .bg-codedex-grid {
-  background-image: radial-gradient(rgba(0, 0, 0, 0.12) 1.5px, transparent 1.5px);
+  background-image: radial-gradient(rgba(0, 0, 0, 0.08) 1.5px, transparent 1.5px);
   background-size: 24px 24px;
 }
 
 .dark .bg-codedex-grid {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1.5px, transparent 1.5px);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1.5px, transparent 1.5px);
   background-size: 24px 24px;
 }
 
-/* Botão Neo-Brutalist tátil estilo Codédex */
-.neo-box {
-  border: 2.5px solid #000000;
-  box-shadow: 4px 4px 0px 0px #000000;
-  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.dark .neo-box {
-  border: 2.5px solid #000000;
-  box-shadow: 4px 4px 0px 0px #FFE600;
-}
-
+/* Botões Neo-Brutalist Interativos Codédex */
 .neo-btn {
-  border: 2.5px solid #000000;
-  box-shadow: 4px 4px 0px 0px #000000;
+  border: 2px solid #000000;
+  box-shadow: 3px 3px 0px 0px #000000;
   transition: all 0.12s ease-in-out;
 }
 
 .dark .neo-btn {
-  border: 2.5px solid #000000;
-  box-shadow: 4px 4px 0px 0px #FFE600;
+  border: 2px solid #000000;
+  box-shadow: 3px 3px 0px 0px #000000;
 }
 
 .neo-btn:hover {
   transform: translate(-1px, -1px);
-  box-shadow: 5px 5px 0px 0px #000000;
-}
-
-.dark .neo-btn:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 5px 5px 0px 0px #FFE600;
+  box-shadow: 4px 4px 0px 0px #000000;
 }
 
 .neo-btn:active {
-  transform: translate(3px, 3px);
+  transform: translate(2px, 2px);
   box-shadow: 1px 1px 0px 0px #000000;
 }
 
-.dark .neo-btn:active {
-  transform: translate(3px, 3px);
-  box-shadow: 1px 1px 0px 0px #FFE600;
+/* Botão Primário Verde Neon Codédex */
+.btn-codedex-mint {
+  background-color: #00E599;
+  color: #000000;
+  border: 2px solid #000000;
+  box-shadow: 3px 3px 0px 0px #000000;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  transition: all 0.12s ease-in-out;
 }
 
-/* Custom Scrollbar Codédex */
+.btn-codedex-mint:hover {
+  background-color: #05f0a3;
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px 0px #000000;
+}
+
+.btn-codedex-mint:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px 0px #000000;
+}
+
+/* Botão Ouro Codédex */
+.btn-codedex-yellow {
+  background-color: #FFE600;
+  color: #000000;
+  border: 2px solid #000000;
+  box-shadow: 3px 3px 0px 0px #000000;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  transition: all 0.12s ease-in-out;
+}
+
+.btn-codedex-yellow:hover {
+  background-color: #ffeb33;
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px 0px #000000;
+}
+
+.btn-codedex-yellow:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px 0px #000000;
+}
+
+/* Scrollbar Customizada Codédex */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #FDFBF7;
-  border-left: 2px solid #000;
-}
-
-.dark ::-webkit-scrollbar-track {
-  background: #121316;
-  border-left: 2px solid #333;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #FFE600;
-  border: 2px solid #000;
+  background: #3A3F4D;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #FFD000;
-}
-
-/* Efeito de Scanline e Piscar Pixel */
-@keyframes blink-pixel {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-.animate-pixel-blink {
-  animation: blink-pixel 1s infinite steps(1);
+  background: #00E599;
 }
