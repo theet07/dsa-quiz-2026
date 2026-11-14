@@ -18,7 +18,7 @@ export default function CopilotHelpModal({ isOpen, onClose }) {
             </div>
             <div>
               <h2 className="font-pixel text-sm sm:text-base font-bold text-black dark:text-white uppercase">
-                GUIA DA JORNADA • DSA 2026
+                GUIA DE DESENVOLVIMENTO • DSA 2026
               </h2>
               <p className="text-xs text-slate-500 dark:text-slate-400 font-sans">
                 Arquitetura do ReactJS, Props, Hooks e Banco de Dados

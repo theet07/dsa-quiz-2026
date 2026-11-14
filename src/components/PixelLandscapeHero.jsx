@@ -167,7 +167,7 @@ export default function PixelLandscapeHero({ onStart, onOpenHelp, onOpenLeaderbo
         
         {/* Título Superior Pixel: START YOUR */}
         <div className="font-pixel text-xs sm:text-sm md:text-base font-bold text-[#14202C] tracking-widest uppercase mb-1 drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
-          COMECE SUA JORNADA
+          START YOUR
         </div>
 
         {/* Título Principal 3D Pixel: Coding Adventure */}

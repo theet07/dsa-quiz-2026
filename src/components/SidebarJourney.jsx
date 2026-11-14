@@ -49,7 +49,7 @@ export default function SidebarJourney({
           <div>
             <div className="flex items-center gap-1.5">
               <span className="font-pixel text-xs font-bold text-black dark:text-white">
-                THE JS JOURNEY
+                TRILHA JAVASCRIPT
               </span>
               <span className="rounded bg-[#00E599] px-1.5 py-0.2 font-pixel text-[8px] font-bold text-black border border-black">
                 DSA '26

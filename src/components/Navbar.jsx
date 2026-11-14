@@ -61,7 +61,7 @@ export default function Navbar({
               onClick={onResetQuiz}
               className="hover:text-white transition cursor-pointer"
             >
-              Jornada
+              Início
             </button>
             <button 
               onClick={onOpenLeaderboard}

@@ -63,7 +63,7 @@ export default function QuestionCard({
               </div>
             )}
 
-            {/* Dica do Provão Paulista */}
+            {/* Dica de Código */}
             {question.tip && (
               <div className="mt-4 pt-3 border-t border-black/10 dark:border-white/10">
                 {!showHint ? (

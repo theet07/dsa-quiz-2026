@@ -93,7 +93,7 @@ export default function ResultScreen({
   };
 
   const handleShare = () => {
-    const text = `🎮 Completei a Jornada DSA 2026 de JavaScript & React!\n⚡ XP Total: ${score} XP | 🎯 Acurácia: ${accuracy}%\n🏆 Rank: ${rank.title} [${rank.level}]!`;
+    const text = `🎮 Completei o Quiz DSA 2026 de JavaScript & React!\n⚡ XP Total: ${score} XP | 🎯 Acurácia: ${accuracy}%\n🏆 Rank: ${rank.title} [${rank.level}]!`;
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
